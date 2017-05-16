@@ -53,6 +53,7 @@
     "imageOffer": "UbuntuServer",
     "OSDiskName": "osdiskforlinuxsimple",
     "nicName": "myVMNic",
+	  "nodeCount": 2,
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
     "subnetPrefix": "10.0.0.0/24",
@@ -115,6 +116,10 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
       "location": "[resourceGroup().location]",
+	    "copy": {
+          "name": "nicLoop",
+          "count": "[variables('nodeCount')]"
+        },
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
@@ -141,6 +146,10 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('vmName')]",
       "location": "[resourceGroup().location]",
+	    "copy": {
+          "name": "vmLoop",
+          "count": "[variables('nodeCount')]"
+        },
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
