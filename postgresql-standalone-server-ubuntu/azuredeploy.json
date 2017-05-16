@@ -193,6 +193,10 @@
       "name": "[concat(variables('vmName'),'/newuserscript')]",
       "apiVersion": "[variables('apiVersion')]",
       "location": "[resourceGroup().location]",
+	    "copy": {
+          "name": "extLoop",
+          "count": "[variables('nodeCount')]"
+        },
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
       ],
